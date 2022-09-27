@@ -1,9 +1,199 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
 
+        <style>
+            body {
+                /* background: rgb(232,38,38);
+                background: linear-gradient(90deg, rgba(232,38,38,1) 7%, rgba(255,0,95,1) 37%, rgba(255,0,26,0.9304096638655462) 67%, rgba(193,22,94,1) 92%); */
+                background-color: #F2240C;
+            }
+            header {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 45px;
+            }
+            .torch {
+                position: fixed;
+                top: 7px;
+                width: 170px;
+                animation: flow 1s infinite;
+            }
+            @keyframes flow {
+                0% {top: 0px}
+                25% {top: 25px}
+                50% {top: 50px}
+                75% {top: 25px}
+                100% {top: 0px}
+
+            }
+            #left {
+                left: 5px;
+            }
+            #right {
+                right: 5px;
+            }
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            .dom {
+                margin: 20px;
+            }
+            .roof {
+                width: 100%;
+            }
+            #list {
+                list-style: none;
+                font-family: Snell Roundhand, cursive;
+            }
+            .okno {
+                margin: 10px;
+                border: solid black 4px;
+                padding: 28%;
+                background-color: rgba(0, 0, 0, 0.3);
+                height: 100px;
+            }
+            .vokne {
+                border: solid 4px black;
+                background-color: #F2240C;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                width: 200px;
+                font-family: Snell Roundhand, cursive;
+                font-size: 25px;
+            }
+            legend {
+                color: #EAB500;
+            }
+            .pole {
+                border: orange solid 3px;
+                border-radius: 20px;
+            }
+            #sub {
+                margin: 15px;
+                height: 30px;
+                border-radius: 6px;
+            }
+            table {
+                width: 100%;
+                padding: 2px;
+                border-radius: 7px 7px 7px 0px;
+            }
+            th {
+                background-color: #22E6F9;
+            }
+           #cntr,form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+           }
+        </style>
+        <header>
+            <img src="china.png" id="title">
+            <img src="lantern.svg" class="torch" id="left">
+            <img src="lantern.svg" class="torch" id="right">
+        </header>
     </head>
     <body>
-        
+        <main>
+            <div class="dom">
+                <img src="roof.svg" class="roof">
+                <div >
+                    <div id="okno1" class="okno" >
+                        <img src="hand.jpg"class="vokne">
+                    </div>
+                </div>
+            </div>
+            <div class="dom">
+                <img src="roof.svg" class="roof">
+                <div>
+                    <div class="okno">
+                        <ul id="list" class="vokne">
+                            <li>я</li>
+                            <li>не помню</li>
+                            <li>что</li>
+                            <li>там</li>
+                            <li>было</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="dom">
+                <img src="roof.svg" class="roof">
+                <div >
+                    <div id="okno1" class="okno">
+                        <img src="cat.jpg" class="vokne">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="cntr" >
+            <img src="order.png" >
+            <form id="form">
+                <legend>Name</legend>
+                <input type="text" class="pole" id="nm">
+                <legend>Email</legend>  
+                <input type="text" class="pole" id="em">
+                <legend>Tel</legend>
+                <input type="tel" class="pole" id="tl">
+                <legend>Adress</legend>
+                <input type="text" class="pole" id="adr">
+                <input type="submit" value="submit" id="sub">
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th id="name">Name</th>
+                <th id="email">Email</th>
+                <th id="tel">Tel</th>
+                <th id="adrs">Adress</th>
+                <th id="dwnld">Download</th>
+            </tr>
+        </table> 
+       <script>
+            // let form = documnt.getElementById('form')
+            // form.addEventListener('submit')
+            let form = document.querySelector("form");
+            form.addEventListener('submit', function(event){
+                event.preventDefault();
+                let obj = {
+                    name: event.target["nm"].value,
+                    email: event.target["em"].value,
+                    tel: event.target["tl"].value,
+                    adress: event.target["adr"].value,
+                    dwnld: function(){
+                        let txt = `
+                        {
+                            "name": "${this.name}",
+                            "email": "${this.email}",
+                            "tel": "${this.tel}",
+                            "adress": "${this.adress}"
+                        }
+                        `
+                        let a = document.createElement("a");
+                        a.textContent = "here";
+                        a.setAttribute("download", "order.json");
+                        a.setAttribute("href", 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt));
+                        return a;
+                    }
+
+                };
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${obj.name}</td>
+                <td>${obj.email}</td>
+                <td>${obj.tel}</td>
+                <td>${obj.adress}</td>
+                <td>${obj.dwnld().outerHTML}</td>
+                `;
+                let tbl = document.getElementsByTagName("table")[0];
+                tbl.append(tr);
+                event.target.reset();
+            });
+        </script>
     </body>
 </html>
